@@ -1,3 +1,27 @@
+
+## Project Screenshots
+
+### Home Page
+![Home Page](Screenshots/Screenshot%202026-11-22%20160709.png)
+
+### Recruiter Dashboard
+![Recruiter Dashboard](Screenshots/Screenshot%202026-11-22%20160842.png)
+
+### Resume Analysis
+![Resume Analysis](Screenshots/Screenshot%202026-11-22%20160924.png)
+
+![Resume Analysis](Screenshots/Screenshot%202026-11-22%20161002.png)
+
+![Resume Analysis](Screenshots/Screenshot%202026-11-22%20161023.png)
+
+![Resume Analysis](Screenshots/Screenshot%202026-11-22%20161146.png)
+
+![Resume Analysis](Screenshots/Screenshot%202026-11-22%20161209.png)
+
+![Resume Analysis](Screenshots/Screenshot%202026-11-22%20161223.png)
+
+![Resume Analysis](Screenshots/Screenshot%202026-11-22%20161237.png)
+
 \# AI Job Portal
 
 
