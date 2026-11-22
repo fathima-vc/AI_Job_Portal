@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>View Applicants | AI Job Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            margin: 0;
+            padding: 30px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #243b67;
+        }
+
+        .job-info {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .applicant-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .applicant-card h2 {
+            color: #243b67;
+            margin-top: 0;
+        }
+
+        .cover-letter {
+            background: #f4f6fb;
+            padding: 15px;
+            border-radius: 7px;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            background: #3157a4;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .empty {
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .message {
+            background: #e4f7e9;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #3157a4;
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Job Applicants</h1>
+
+    <div class="job-info">
+
+        <h2>{{ job.title }}</h2>
+
+        <p><strong>Company:</strong> {{ job.company }}</p>
+
+        <p><strong>Location:</strong> {{ job.location }}</p>
+
+        <p><strong>Total Applicants:</strong> {{ applications|length }}</p>
+
+    </div>
+
+
+    {% for message in messages %}
+
+        <div class="message">
+            {{ message }}
+        </div>
+
+    {% endfor %}
+
+
+    {% for application in applications %}
+
+        <div class="applicant-card">
+
+            <h2>{{ application.applicant.username }}</h2>
+
+            <p>
+                <strong>Application Date:</strong>
+                {{ application.applied_at|date:"d M Y, h:i A" }}
+            </p>
+
+            <p>
+                <strong>Current Status:</strong>
+                {{ application.get_status_display }}
+            </p>
+
+            <h3>Cover Letter</h3>
+
+            <div class="cover-letter">
+
+                {% if application.cover_letter %}
+                    {{ application.cover_letter }}
+                {% else %}
+                    No cover letter provided.
+                {% endif %}
+
+            </div>
+
+
+            <h3>Update Application Status</h3>
+
+            <form method="POST"
+                  action="{% url 'update_application_status' application.id %}">
+
+                {% csrf_token %}
+
+                <select name="status" required>
+
+                    <option value="pending"
+                        {% if application.status == 'pending' %}selected{% endif %}>
+                        Pending
+                    </option>
+
+                    <option value="shortlisted"
+                        {% if application.status == 'shortlisted' %}selected{% endif %}>
+                        Shortlisted
+                    </option>
+
+                    <option value="accepted"
+                        {% if application.status == 'accepted' %}selected{% endif %}>
+                        Accepted
+                    </option>
+
+                    <option value="rejected"
+                        {% if application.status == 'rejected' %}selected{% endif %}>
+                        Rejected
+                    </option>
+
+                </select>
+
+                <button type="submit">
+                    Update Status
+                </button>
+
+            </form>
+
+        </div>
+
+    {% empty %}
+
+        <div class="empty">
+
+            <h2>No Applicants Yet</h2>
+
+            <p>Applicants will appear here when they apply for this job.</p>
+
+        </div>
+
+    {% endfor %}
+
+
+    <a href="{% url 'recruiter_dashboard' %}" class="back">
+        ← Back to Recruiter Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

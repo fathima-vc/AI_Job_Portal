@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Job | AI Job Portal</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            margin: 0;
+            padding: 30px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 100px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: #c0392b;
+        }
+
+        .delete-btn {
+            background: #c0392b;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .cancel-btn {
+            display: inline-block;
+            background: #3157a4;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Delete Job?</h1>
+
+    <p>Are you sure you want to delete this job?</p>
+
+    <h3>{{ job.title }}</h3>
+
+    <p>{{ job.company }}</p>
+
+    <p>This action cannot be undone.</p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <button type="submit" class="delete-btn">
+            Yes, Delete Job
+        </button>
+
+        <a href="{% url 'recruiter_dashboard' %}" class="cancel-btn">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+</html>

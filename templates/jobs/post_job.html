@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job | AI Job Portal</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            margin: 0;
+            padding: 30px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: #243b67;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            background: #3157a4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #243b67;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 18px;
+            color: #3157a4;
+            text-decoration: none;
+        }
+
+        .errors {
+            color: #c0392b;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Post a New Job</h1>
+
+    <p>Fill in the details below to publish your job opportunity.</p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <div class="errors">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+
+            <label for="{{ field.id_for_label }}">
+                {{ field.label }}
+            </label>
+
+            {{ field }}
+
+            {% if field.help_text %}
+                <small>{{ field.help_text }}</small>
+            {% endif %}
+
+        {% endfor %}
+
+        <button type="submit">Publish Job</button>
+
+    </form>
+
+    <a href="{% url 'recruiter_dashboard' %}" class="back">
+        ← Back to Recruiter Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

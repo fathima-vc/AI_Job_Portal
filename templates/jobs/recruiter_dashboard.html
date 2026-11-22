@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Recruiter Dashboard | AI Job Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            margin: 0;
+            padding: 30px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: #243b67;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #3157a4;
+            color: white;
+            padding: 11px 18px;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .job-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .job-card h2 {
+            color: #243b67;
+            margin-top: 0;
+        }
+
+        .edit-btn,
+        .applicants-btn {
+            display: inline-block;
+            background: #3157a4;
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 8px;
+        }
+
+        .applicants-btn {
+            background: #198754;
+        }
+
+        .delete-btn {
+            display: inline-block;
+            background: #c0392b;
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-left: 10px;
+            margin-bottom: 8px;
+        }
+
+        .empty {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .message {
+            background: #e4f7e9;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .footer-link {
+            margin-top: 25px;
+        }
+
+        .footer-link a {
+            color: #3157a4;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            .top {
+                align-items: flex-start;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top">
+
+        <div>
+            <h1>Recruiter Dashboard</h1>
+            <p>Welcome, {{ request.user.username }}!</p>
+            <p>Manage your job postings here.</p>
+        </div>
+
+        <a href="{% url 'post_job' %}" class="btn">
+            + Post New Job
+        </a>
+
+    </div>
+
+
+    {% for message in messages %}
+
+        <div class="message">
+            {{ message }}
+        </div>
+
+    {% endfor %}
+
+
+    <h2>My Posted Jobs</h2>
+
+    {% for job in jobs %}
+
+        <div class="job-card">
+
+            <h2>{{ job.title }}</h2>
+
+            <p>
+                <strong>Company:</strong>
+                {{ job.company }}
+            </p>
+
+            <p>
+                <strong>Location:</strong>
+                {{ job.location }}
+            </p>
+
+            <p>
+                <strong>Job Type:</strong>
+                {{ job.get_job_type_display }}
+            </p>
+
+            <p>
+                <strong>Salary:</strong>
+                {{ job.salary|default:"Not specified" }}
+            </p>
+
+            <p>
+                <strong>Applications:</strong>
+                {{ job.applications.count }}
+            </p>
+
+            <p>
+                <strong>Posted Date:</strong>
+                {{ job.created_at|date:"d M Y" }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+
+                {% if job.is_active %}
+                    <span style="color: green;">Active</span>
+                {% else %}
+                    <span style="color: red;">Inactive</span>
+                {% endif %}
+
+            </p>
+
+
+            <div style="margin-top: 20px;">
+
+                <a href="{% url 'view_applicants' job.id %}"
+                   class="applicants-btn">
+                    View Applicants
+                </a>
+
+                <a href="{% url 'edit_job' job.id %}"
+                   class="edit-btn">
+                    Edit Job
+                </a>
+
+                <a href="{% url 'delete_job' job.id %}"
+                   class="delete-btn">
+                    Delete Job
+                </a>
+
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <div class="empty">
+
+            <h3>No jobs posted yet!</h3>
+
+            <p>Start by posting your first job opportunity.</p>
+
+            <a href="{% url 'post_job' %}" class="btn">
+                Post Your First Job
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+
+    <div class="footer-link">
+
+        <a href="{% url 'job_list' %}">
+            ← Browse All Jobs
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Applications - AI Job Portal</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #243b64;
+        }
+
+        .application-card {
+            background: white;
+            max-width: 750px;
+            margin: 20px auto;
+            padding: 22px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #ccc;
+        }
+
+        .application-card h2 {
+            color: #2563eb;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 20px;
+            background: #e0e7ff;
+            color: #3730a3;
+            font-weight: bold;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .empty {
+            text-align: center;
+            margin-top: 50px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>My Job Applications</h1>
+
+    {% for application in applications %}
+
+        <div class="application-card">
+
+            <h2>{{ application.job.title }}</h2>
+
+            <p>
+                <strong>Company:</strong>
+                {{ application.job.company }}
+            </p>
+
+            <p>
+                <strong>Location:</strong>
+                {{ application.job.location }}
+            </p>
+
+            <p>
+                <strong>Applied Date:</strong>
+                {{ application.applied_at|date:"d M Y" }}
+            </p>
+
+            <p>
+                <strong>Application Status:</strong>
+                <span class="status">
+                    {{ application.get_status_display }}
+                </span>
+            </p>
+
+        </div>
+
+    {% empty %}
+
+        <div class="empty">
+            <h2>No Applications Yet</h2>
+            <p>You haven't applied for any jobs yet.</p>
+            <a href="{% url 'job_list' %}">Browse Available Jobs</a>
+        </div>
+
+    {% endfor %}
+
+    <a href="{% url 'job_list' %}" class="back">
+        ← Back to Jobs
+    </a>
+
+</body>
+</html>
