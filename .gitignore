@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *.pyo
 
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
 # Virtual environment
 venv/
 .venv/
@@ -27,6 +33,7 @@ staticfiles/
 # Operating system
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Backup folders
 config copy/
